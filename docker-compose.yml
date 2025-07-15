@@ -1,0 +1,39 @@
+version: '3.9'
+services:
+
+  postgres:
+    image: postgres:15
+    container_name: datanest-postgres
+    environment:
+      POSTGRES_DB: datanest
+      POSTGRES_USER: datanest
+      POSTGRES_PASSWORD: datanest
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+
+  minio:
+    image: minio/minio
+    container_name: datanest-minio
+    environment:
+      MINIO_ACCESS_KEY: minio
+      MINIO_SECRET_KEY: minio123
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    command: server /data --console-address ":9001"
+    volumes:
+      - ./minio-data:/data
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:23.0
+    container_name: datanest-keycloak
+    command: start-dev
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    ports:
+      - "8180:8080"
+    depends_on:
+      - postgres
