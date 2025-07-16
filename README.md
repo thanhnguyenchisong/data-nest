@@ -9,6 +9,9 @@ Giúp các doanh nghiệp B2B, nhà đầu tư, startup tiếp cận nguồn d�
 
 ---
 
+## High-Level Design
+![img_1.png](img_1.png)
+
 ## 🚀 Tech Stack
 
 - **Java Quarkus 3.x** (RESTEasy Reactive, Panache ORM)

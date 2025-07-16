@@ -8,8 +8,10 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
+import org.datanest.crawler.RealEstateCrawlerService;
 import org.datanest.domain.RealEstate;
 import org.datanest.service.RealEstateService;
 
@@ -21,6 +23,9 @@ public class RealEstateResource {
   @Inject
   RealEstateService service;
 
+  @Inject
+  RealEstateCrawlerService crawlerService;
+
   @GET
   public List<RealEstate> list() {
     return service.listAll();
@@ -31,6 +36,12 @@ public class RealEstateResource {
     estate.dateCollected = LocalDateTime.now();
     service.save(estate);
     return Response.status(Response.Status.CREATED).entity(estate).build();
+  }
+
+  @POST
+  @Path("craw")
+  public String craw() throws IOException {
+    return crawlerService.crawl();
   }
 }
 

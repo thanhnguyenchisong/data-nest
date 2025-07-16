@@ -13,8 +13,12 @@ import lombok.NoArgsConstructor;
 @Builder
 public class RealEstate extends PanacheEntity {
   public String title;
-  public String address;
-  public Long price;
+  public String price;
+  public String location;
+  public String area;
+  public String thumbnail;
   public String sourceUrl;
+  public String sourceSite;
+  public String pricePerM2;
   public LocalDateTime dateCollected;
 }

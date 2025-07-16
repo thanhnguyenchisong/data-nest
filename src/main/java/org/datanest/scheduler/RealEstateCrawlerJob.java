@@ -25,11 +25,13 @@ public class RealEstateCrawlerJob {
   @Scheduled(every = "24h")
   void crawlAndSave() throws IOException {
     log.info("RealEstateCrawlerJob.crawlAndSave");
-//    List<RealEstate> estates = crawler.crawl();
-//    for (RealEstate estate : estates) {
-//      service.save(estate);
-//    }
-//    String fileName = "real-estate/" + LocalDateTime.now() + ".json";
-//    minio.upload(fileName, estates.toString().getBytes());
+//    RealEstate estate = new RealEstate();
+//    estate.title = "Căn hộ Vinhomes demo " + System.currentTimeMillis();
+//    estate.price = "5 tỷ";
+//    estate.location = "Q1, TP.HCM";
+//    estate.thumbnail = "https://via.placeholder.com/150";
+//    estate.sourceUrl = "https://batdongsan.com.vn/demo-url";
+//    estate.sourceSite = "batdongsan.com.vn";
+//    service.save(estate);
   }
 }
