@@ -31,20 +31,21 @@ public class BinanceWebSocketClient {
         .buildAsync(URI.create(uri), new BinanceListener());
   }
 
-  @Override
-  public CompletionStage<?> onText(WebSocket webSocket, CharSequence data, boolean last) {
-    JSONObject json = new JSONObject(data.toString());
-    JSONObject streamData = json.getJSONObject("data");
-    String stream = json.getString("stream"); // btcusdt@trade
-    String symbol = stream.split("@")[0].toUpperCase();
-    double price = streamData.getDouble("p");
+  class BinanceListener implements WebSocket.Listener {
+    @Override
+    public CompletionStage<?> onText(WebSocket webSocket, CharSequence data, boolean last) {
+      JSONObject json = new JSONObject(data.toString());
+      JSONObject streamData = json.getJSONObject("data");
+      String stream = json.getString("stream"); // btcusdt@trade
+      String symbol = stream.split("@")[0].toUpperCase();
+      double price = streamData.getDouble("p");
 
-    CoinPriceService service = CoinPriceWebSocket.getService();
-    service.updatePrice(symbol, price);
-    CoinPriceWebSocket.broadcastAll(service.getAllLatestPrices());
+      CoinPriceService service = CoinPriceWebSocket.getService();
+      service.updatePrice(symbol, price);
+      CoinPriceWebSocket.broadcastAll(service.getAllLatestPrices());
 
-    return WebSocket.Listener.super.onText(webSocket, data, last);
+      return WebSocket.Listener.super.onText(webSocket, data, last);
+    }
   }
-
 }
 
