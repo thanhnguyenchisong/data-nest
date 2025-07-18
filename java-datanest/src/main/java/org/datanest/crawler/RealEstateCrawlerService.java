@@ -6,7 +6,6 @@ import com.microsoft.playwright.BrowserType;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Playwright;
 import com.microsoft.playwright.options.LoadState;
-import com.microsoft.playwright.options.WaitUntilState;
 import jakarta.enterprise.context.ApplicationScoped;
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -33,9 +32,10 @@ public class RealEstateCrawlerService {
         .setJavaScriptEnabled(true)
     );
     Page page = context.newPage();
-    page.navigate("https://batdongsan.com.vn/nha-dat-ban-hiep-hoa-bg",
-        new Page.NavigateOptions().setWaitUntil(WaitUntilState.NETWORKIDLE));
+    page.navigate("https://batdongsan.com.vn/nha-dat-ban-hiep-hoa-bg");
+    page.waitForLoadState(LoadState.NETWORKIDLE);
     String html = page.content();
+    System.out.println(html);
     Document doc = Jsoup.parse(html);
     Elements posts = doc.select(".js__product-link-for-product-id");
     for (Element post : posts) {

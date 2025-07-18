@@ -1,6 +1,7 @@
 package org.datanest.api;
 
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
@@ -38,10 +39,16 @@ public class RealEstateResource {
     return Response.status(Response.Status.CREATED).entity(estate).build();
   }
 
+  @Path("/api/realestate/crawl")
   @POST
-  @Path("craw")
-  public String craw() throws IOException {
-    return crawlerService.crawl();
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Transactional
+  public Response ingest(List<RealEstateDTO> data) {
+    for (RealEstateDTO dto : data) {
+      repository.persist(new RealEstate(dto.title, dto.price, dto.url));
+    }
+    return Response.ok().build();
   }
+
 }
 
